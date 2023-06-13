@@ -1,14 +1,21 @@
 package com.example;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@ExtendWith(MockitoExtension.class)
 class CatTest {
     private Cat cat;
+
+    @Mock
+    private Feline mockFeline;
 
     @Test
     void getSoundNoParamReturnString() {
@@ -20,7 +27,6 @@ class CatTest {
 
     @Test
     void getFoodNoParamReturnList() throws Exception {
-        Feline mockFeline = Mockito.mock(Feline.class);
         cat = new Cat(mockFeline);
         List<String> expected = List.of("Животные", "Птицы", "Рыба");
         Mockito.when(mockFeline.eatMeat()).thenReturn(expected);

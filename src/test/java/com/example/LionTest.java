@@ -1,10 +1,13 @@
 package com.example;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -13,13 +16,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+@ExtendWith(MockitoExtension.class)
 class LionTest {
 
     private Lion lion;
+    @Mock
+    private Feline mockFeline;
 
     @Test
     void getKittensReturnInt() throws Exception {
-        Feline mockFeline = Mockito.mock(Feline.class);
         lion = new Lion("Самец", mockFeline);
         Mockito.when(mockFeline.getKittens()).thenReturn(1);
         int expected = 1;
@@ -52,10 +57,9 @@ class LionTest {
 
     @Test
     void getFoodReturnList() throws Exception {
-        Feline feline = Mockito.mock(Feline.class);
-        lion = new Lion("Самец", feline);
+        lion = new Lion("Самец", mockFeline);
         List<String> expected = List.of("Животные", "Птицы", "Рыба");
-        Mockito.when(feline.getFood("Хищник")).thenReturn(expected);
+        Mockito.when(mockFeline.getFood("Хищник")).thenReturn(expected);
 
         assertEquals(expected, lion.getFood());
     }
